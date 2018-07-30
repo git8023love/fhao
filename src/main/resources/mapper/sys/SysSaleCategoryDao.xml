@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.fhao.modules.sys.dao.SysSaleCategoryDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.fhao.modules.sys.entity.SysSaleCategory" id="saleCategoryMap">
+        <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.fhao.modules.sys.entity.SysSaleCategory">
+		select * from sale_category where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.fhao.modules.sys.entity.SysSaleCategory">
+		select sc.*, scy.name as parentName from sale_category sc 
+		left join sale_category scy on sc.parent_id = scy.id
+		where sc.del_flag = 0
+		<if test="saleCategoryFilter != null">
+			and sc.id in (${saleCategoryFilter})
+		</if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by sc.${sidx} ${order}
+            </when>
+			<otherwise>
+                order by sc.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sale_category 
+	</select>
+	 
+	<insert id="save" parameterType="io.fhao.modules.sys.entity.SysSaleCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into sale_category
+		(
+			`parent_id`, 
+			`name`, 
+			`del_flag`
+		)
+		values
+		(
+			#{parentId}, 
+			#{name}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.fhao.modules.sys.entity.SysSaleCategory">
+		update sale_category 
+		<set>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sale_category where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sale_category where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="querySaleCategoryList" resultType="long">
+		select id from sale_category where parent_id = #{value}
+	</select>
+</mapper>

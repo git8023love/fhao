@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.fhao.modules.sys.dao.SysSaleSupplyDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.fhao.modules.sys.entity.SysSaleSupply" id="saleSupplyMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="shortname" column="shortName"/>
+        <result property="unitname" column="unitName"/>
+        <result property="address" column="address"/>
+        <result property="www" column="www"/>
+        <result property="email" column="email"/>
+        <result property="telno" column="telNo"/>
+        <result property="faxno" column="faxNo"/>
+        <result property="cman" column="cman"/>
+        <result property="bpno" column="bPNo"/>
+        <result property="zipno" column="zipNo"/>
+        <result property="khbank" column="kHBank"/>
+        <result property="accno" column="accNo"/>
+        <result property="bscope" column="bScope"/>
+        <result property="taxno" column="taxNo"/>
+        <result property="juridicalperson" column="juridicalPerson"/>
+        <result property="barcodefee" column="barCodeFee"/>
+        <result property="negotiationlevel" column="negotiationLevel"/>
+        <result property="agencylevel" column="agencyLevel"/>
+        <result property="povince" column="povince"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="areaflag" column="areaFlag"/>
+        <result property="supplytype" column="supplyType"/>
+        <result property="supregionflag" column="supRegionFlag"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.fhao.modules.sys.entity.SysSaleSupply">
+		select * from sale_supply where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.fhao.modules.sys.entity.SysSaleSupply">
+		select * from sale_supply
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sale_supply 
+	</select>
+	 
+	<insert id="save" parameterType="io.fhao.modules.sys.entity.SysSaleSupply" useGeneratedKeys="true" keyProperty="id">
+		insert into sale_supply
+		(
+			`name`, 
+			`shortName`, 
+			`unitName`, 
+			`address`, 
+			`www`, 
+			`email`, 
+			`telNo`, 
+			`faxNo`, 
+			`cman`, 
+			`bPNo`, 
+			`zipNo`, 
+			`kHBank`, 
+			`accNo`, 
+			`bScope`, 
+			`taxNo`, 
+			`juridicalPerson`, 
+			`barCodeFee`, 
+			`negotiationLevel`, 
+			`agencyLevel`, 
+			`povince`, 
+			`city`, 
+			`district`, 
+			`areaFlag`, 
+			`supplyType`, 
+			`supRegionFlag`
+		)
+		values
+		(
+			#{name}, 
+			#{shortname}, 
+			#{unitname}, 
+			#{address}, 
+			#{www}, 
+			#{email}, 
+			#{telno}, 
+			#{faxno}, 
+			#{cman}, 
+			#{bpno}, 
+			#{zipno}, 
+			#{khbank}, 
+			#{accno}, 
+			#{bscope}, 
+			#{taxno}, 
+			#{juridicalperson}, 
+			#{barcodefee}, 
+			#{negotiationlevel}, 
+			#{agencylevel}, 
+			#{povince}, 
+			#{city}, 
+			#{district}, 
+			#{areaflag}, 
+			#{supplytype}, 
+			#{supregionflag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.fhao.modules.sys.entity.SysSaleSupply">
+		update sale_supply 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="shortname != null">`shortName` = #{shortname}, </if>
+			<if test="unitname != null">`unitName` = #{unitname}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="www != null">`www` = #{www}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="telno != null">`telNo` = #{telno}, </if>
+			<if test="faxno != null">`faxNo` = #{faxno}, </if>
+			<if test="cman != null">`cman` = #{cman}, </if>
+			<if test="bpno != null">`bPNo` = #{bpno}, </if>
+			<if test="zipno != null">`zipNo` = #{zipno}, </if>
+			<if test="khbank != null">`kHBank` = #{khbank}, </if>
+			<if test="accno != null">`accNo` = #{accno}, </if>
+			<if test="bscope != null">`bScope` = #{bscope}, </if>
+			<if test="taxno != null">`taxNo` = #{taxno}, </if>
+			<if test="juridicalperson != null">`juridicalPerson` = #{juridicalperson}, </if>
+			<if test="barcodefee != null">`barCodeFee` = #{barcodefee}, </if>
+			<if test="negotiationlevel != null">`negotiationLevel` = #{negotiationlevel}, </if>
+			<if test="agencylevel != null">`agencyLevel` = #{agencylevel}, </if>
+			<if test="povince != null">`povince` = #{povince}, </if>
+			<if test="city != null">`city` = #{city}, </if>
+			<if test="district != null">`district` = #{district}, </if>
+			<if test="areaflag != null">`areaFlag` = #{areaflag}, </if>
+			<if test="supplytype != null">`supplyType` = #{supplytype}, </if>
+			<if test="supregionflag != null">`supRegionFlag` = #{supregionflag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sale_supply where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sale_supply where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
