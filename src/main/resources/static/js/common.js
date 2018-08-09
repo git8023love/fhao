@@ -15,6 +15,7 @@ var url = function(name) {
 	var r = window.location.search.substr(1).match(reg);
 	if(r!=null)return  unescape(r[2]); return null;
 };
+
 T.p = url;
 
 //请求前缀
@@ -25,6 +26,7 @@ var uploadFileResource = baseURL + 'uploadFile';
 
 //登录token
 var token = localStorage.getItem("token");
+
 if(token == 'null'){
     parent.location.href = baseURL + 'admin/login.html';
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>供应商</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+<link rel="stylesheet" href="../../../plugins/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" href="../../../css/main.css">
+<script src="../../../libs/jquery.min.js"></script>
+<script src="../../../plugins/layer/layer.js"></script>
+<script src="../../../libs/bootstrap.min.js"></script>
+<script src="../../../libs/vue.min.js"></script>
+<script src="../../../plugins/jqgrid/grid.locale-cn.js"></script>
+<script src="../../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="../../../plugins/ztree/jquery.ztree.all.min.js"></script>
+<script src="../../../js/common.js"></script>
+</head>
+<body>
+<div id="rapp" v-cloak>
+	<div v-show="showList">
+		<div class="grid-btn">
+            <a class="btn btn-default" @click="refresh">刷新</a>
+
+			<a v-if="hasPermission('sale:saleSupply:save')" class="btn btn-success" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('sale:saleSupply:update')" class="btn btn-warning" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('sale:saleSupply:delete')" class="btn btn-danger" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+		</div>
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+    
+    <div v-show="!showList" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+											<div class="form-group">
+			   	<label class="col-sm-2 control-label">供应商名称</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.name" placeholder="供应商名称"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">供应商缩写</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.shortname" placeholder="供应商缩写"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">付款单位</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.unitname" placeholder="付款单位名称"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">地址</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.address" placeholder="地址"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">网址</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.www" placeholder="网址"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">邮箱</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.email" placeholder="邮箱"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">公司电话</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.telno" placeholder="公司电话"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">公司传真</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.faxno" placeholder="公司传真"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">联系人</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.cman" placeholder="联系人"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">传呼/手机</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.bpno" placeholder="传呼/手机"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">邮政编码</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.zipno" placeholder="邮政编码"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">开户银行</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.khbank" placeholder="开户银行"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">银行帐号</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.accno" placeholder="银行帐号"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">经营范围</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.bscope" placeholder="经营范围"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">纳税号</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.taxno" placeholder=""/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">法人代表</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.juridicalperson" placeholder="法人代表"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">条码</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.barcodefee" placeholder="条码"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">谈判级别</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.negotiationlevel" placeholder="谈判级别"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">代理级别</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.agencylevel" placeholder="代理级别"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">省份</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.povince" placeholder="省份"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">城市</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.city" placeholder="城市"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">县/区</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.district" placeholder="县/区"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">区域标志</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.areaflag" placeholder="区域标志"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">供应商类型</label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.supplytype" placeholder="供应商类型"/>
+			    </div>
+			</div>
+									<div class="form-group">
+			   	<label class="col-sm-2 control-label">经营类型 </label>
+			   	<div class="col-sm-6">
+			      <input type="text" class="form-control" v-model="saleSupply.supregionflag" placeholder="供应商经营类型 0=区域供应商 1=全国供应商"/>
+			    </div>
+			</div>
+							<div class="form-group">
+				<label class="col-sm-2 control-label"></label>
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="../../../js/modules/sale/saleSupply.js"></script>
+</body>
+</html>

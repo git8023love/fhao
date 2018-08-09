@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.fhao.modules.sys.dao.SysTaxonomyDao;
 import io.fhao.modules.sys.entity.SysTaxonomy;
-import io.fhao.modules.sys.redis.SysTaxonomyRedis;
+import io.fhao.common.redis.SysTaxonomyRedis;
 import io.fhao.modules.sys.service.SysTaxonomyService;
 
 import java.util.Date;

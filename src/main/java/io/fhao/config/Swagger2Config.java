@@ -32,6 +32,8 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("fhao的前端api文档")
+                .description("更多资讯请点击 http://heguoliang.top")
+                .termsOfServiceUrl("http://heguoliang.top")
                 .contact("hgw")
                 .version("1.0")
                 .build();

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.fhao.modules.book.dao.BookChapterDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.fhao.modules.book.entity.BookChapter" id="bookChapterMap">
+        <result property="id" column="id"/>
+        <result property="noveid" column="noveId"/>
+        <result property="name" column="name"/>
+        <result property="chaptersort" column="chapterSort"/>
+        <result property="chaptercontext" column="chapterContext"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.fhao.modules.book.entity.BookChapter">
+		select * from book_chapter where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.fhao.modules.book.entity.BookChapter">
+		select * from book_chapter
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from book_chapter 
+	</select>
+	 
+	<insert id="save" parameterType="io.fhao.modules.book.entity.BookChapter" useGeneratedKeys="true" keyProperty="id">
+		insert into book_chapter
+		(
+			`noveId`, 
+			`name`, 
+			`chapterSort`, 
+			`chapterContext`
+		)
+		values
+		(
+			#{noveid}, 
+			#{name}, 
+			#{chaptersort}, 
+			#{chaptercontext}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.fhao.modules.book.entity.BookChapter">
+		update book_chapter 
+		<set>
+			<if test="noveid != null">`noveId` = #{noveid}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="chaptersort != null">`chapterSort` = #{chaptersort}, </if>
+			<if test="chaptercontext != null">`chapterContext` = #{chaptercontext}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from book_chapter where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from book_chapter where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

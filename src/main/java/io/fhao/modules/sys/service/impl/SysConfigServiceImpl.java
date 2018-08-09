@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import io.fhao.common.exception.FhaoException;
 import io.fhao.modules.sys.dao.SysConfigDao;
 import io.fhao.modules.sys.entity.SysConfig;
-import io.fhao.modules.sys.redis.SysConfigRedis;
+import io.fhao.common.redis.SysConfigRedis;
 import io.fhao.modules.sys.service.SysConfigService;
 
 import org.apache.commons.lang.StringUtils;

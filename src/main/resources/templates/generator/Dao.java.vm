@@ -1,6 +1,6 @@
 package ${package}.dao;
 
-import ${package}.entity.${className}Entity;
+import ${package}.entity.${className};
 import io.fhao.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -5,10 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.fhao.common.shiro.TokenGenerator;
-import io.fhao.common.utils.Result;
 import io.fhao.modules.sys.dao.SysUserTokenDao;
 import io.fhao.modules.sys.entity.SysUserToken;
-import io.fhao.modules.sys.redis.SysUserTokenRedis;
+import io.fhao.common.redis.SysUserTokenRedis;
 import io.fhao.modules.sys.service.SysUserTokenService;
 
 import java.util.Date;

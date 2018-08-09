@@ -7,9 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import io.fhao.common.Constant;
 import io.fhao.common.utils.ShiroUtils;
 import io.fhao.modules.sys.dao.SysContentDao;
-import io.fhao.modules.sys.entity.SysConfig;
 import io.fhao.modules.sys.entity.SysContent;
-import io.fhao.modules.sys.redis.SysContentRedis;
+import io.fhao.common.redis.SysContentRedis;
 import io.fhao.modules.sys.service.SysContentService;
 import io.fhao.modules.sys.service.SysContentTaxonomyService;
 

@@ -12,7 +12,7 @@ import io.fhao.modules.sys.dao.SysMenuDao;
 import io.fhao.modules.sys.dao.SysUserDao;
 import io.fhao.modules.sys.entity.SysMenu;
 import io.fhao.modules.sys.entity.SysUser;
-import io.fhao.modules.sys.redis.SysUserRedis;
+import io.fhao.common.redis.SysUserRedis;
 import io.fhao.modules.sys.service.SysRoleService;
 import io.fhao.modules.sys.service.SysUserRoleService;
 import io.fhao.modules.sys.service.SysUserService;
