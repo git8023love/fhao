@@ -240,3 +240,133 @@ insert into `sys_menu` (`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon
 insert into `sys_menu` (`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) values('56','54','新增',NULL,'sys:content:save,sys:attachment:list,sys:taxonomy:selectByType','2',NULL,'0');
 insert into `sys_menu` (`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) values('57','54','修改',NULL,'sys:content:update,sys:attachment:list,sys:taxonomy:selectByType','2',NULL,'0');
 insert into `sys_menu` (`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) values('58','54','删除',NULL,'sys:content:delete','2',NULL,'0');
+
+DROP TABLE IF EXISTS `book_chapter`;
+CREATE TABLE `book_chapter` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT '小说章节' ,
+`noveId`  bigint(20) NULL DEFAULT NULL COMMENT '小说Id' ,
+`name`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '章节名' ,
+`chapterSort`  bigint(20) NULL DEFAULT NULL COMMENT '第几章' ,
+`chapterContext`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '章节内容' ,
+PRIMARY KEY (`id`),
+INDEX `NoveId` (`noveId`) USING BTREE 
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='章节表'
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;
+
+
+DROP TABLE IF EXISTS `book_nove`;
+CREATE TABLE `book_nove` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT '小说' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '小说名' ,
+`styleId`  bigint(20) NULL DEFAULT NULL COMMENT '分类ID' ,
+`noveImgUrl`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '图片路径' ,
+`noveUrl`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '该文章原本的地址( 便于后期更新 )' ,
+`synopsis`  varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '小说简介' ,
+PRIMARY KEY (`id`),
+INDEX `StyleId` (`styleId`) USING BTREE 
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='目录信息表'
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;
+
+DROP TABLE IF EXISTS `book_style`;
+CREATE TABLE `book_style` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分类' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' COMMENT '分类名' ,
+`parentId`  bigint(20) NULL DEFAULT NULL COMMENT '父分类ID' ,
+`remd`  bigint(20) NULL DEFAULT 0 COMMENT '排序' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='小说分类表'
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;
+
+DROP TABLE IF EXISTS `sale_category`;
+CREATE TABLE `sale_category` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`parent_id`  bigint(20) NULL DEFAULT NULL COMMENT '上级部门ID，一级部门为0' ,
+`name`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类别名称' ,
+`del_flag`  tinyint(4) NULL DEFAULT 0 COMMENT '是否删除  -1：已删除  0：正常' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='商品分类'
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;
+
+DROP TABLE IF EXISTS `sale_goods`;
+CREATE TABLE `sale_goods` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`vgno`  bigint(20) NULL DEFAULT NULL COMMENT '商品条码' ,
+`goods_no`  bigint(20) NULL DEFAULT NULL COMMENT '商品编号' ,
+`goods_name`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '商品中文名称' ,
+`english_name`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '商品英文名称' ,
+`price`  double(10,2) NULL DEFAULT NULL COMMENT '售价' ,
+`supply_id`  bigint(20) NULL DEFAULT NULL COMMENT '供应商ID' ,
+`category_id`  bigint(20) NULL DEFAULT NULL COMMENT '商品类型ID' ,
+`create_time`  datetime NULL DEFAULT NULL COMMENT '创建时间' ,
+`update_time`  datetime NULL DEFAULT NULL COMMENT '更新时间' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf16 COLLATE=utf16_general_ci
+COMMENT='商品表'
+AUTO_INCREMENT=1
+ROW_FORMAT=DYNAMIC
+;
+
+DROP TABLE IF EXISTS `sale_supply`;
+CREATE TABLE `sale_supply` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`name`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '供应商名称' ,
+`shortName`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '供应商缩写' ,
+`unitName`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '付款单位名称' ,
+`address`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址' ,
+`www`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '网址' ,
+`email`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱' ,
+`telNo`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公司电话' ,
+`faxNo`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公司传真' ,
+`cman`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人' ,
+`bPNo`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '传呼/手机' ,
+`zipNo`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮政编码' ,
+`kHBank`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开户银行' ,
+`accNo`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '银行帐号' ,
+`bScope`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '经营范围' ,
+`taxNo`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '纳税号' ,
+`juridicalPerson`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '法人代表' ,
+`barCodeFee`  decimal(12,4) NULL DEFAULT NULL COMMENT '条码' ,
+`negotiationLevel`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '谈判级别' ,
+`agencyLevel`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '代理级别' ,
+`povince`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省份' ,
+`city`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市' ,
+`district`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '县/区' ,
+`areaFlag`  int(2) NULL DEFAULT 0 COMMENT '区域标志' ,
+`supplyType`  int(10) NULL DEFAULT NULL COMMENT '供应商类型' ,
+`supRegionFlag`  int(2) NULL DEFAULT 0 COMMENT '供应商经营类型 0=区域供应商 1=全国供应商' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='供应商'
+AUTO_INCREMENT=10004
+ROW_FORMAT=DYNAMIC
+;
+
+
+
+
+
+
